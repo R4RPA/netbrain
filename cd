@@ -1,0 +1,19 @@
+it might be Concurrency issue
+
+below is what I am using, how to make it workw with concurrency?
+
+import psycopg2 as pg
+
+def pg_conn():
+	conn = pg.collect(database=db_name, host=db_host, user=db_user, password=db_password)
+	curser = conn.curser()
+	return curser
+	
+def get_results(connection, query):
+	connection.execute(query)
+	return connection.fetchall()
+
+def process_customer_ids(task_id, query_mode, customerids_chunk):
+	query = get_query(query_mode, customerids_chunk)
+	connection = pg_conn()
+	results = get_results(connection, query)
